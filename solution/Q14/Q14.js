@@ -13,12 +13,13 @@
 //     return ans
 // };
 
+// 自己的解法
+
 /*
+横向扫描法
 思路：
 横向遍历数组，最长公共前缀一定是数组成员两两之间最短的公共前缀
  */
-
-// 自己的解法
 var longestCommonPrefix = function (arr) {
     let ans = arr.length > 0 ? arr[0] : '';
     for (let item of arr) {
@@ -28,6 +29,28 @@ var longestCommonPrefix = function (arr) {
         ans = ans.slice(0,i);
     }
     return ans;
+};
+
+/*
+纵向对比法
+思路：
+每次取数组中每个元素的第i项，如果其中有不相等第情况，则直接跳出循环，返回i即为最大公共前缀的长度
+ */
+var longestCommonPrefix1 = function (arr) {
+    if (arr.length === 0) return '';
+    let ans = arr[0],
+        len = Math.min.apply(Math, arr.map((e)=>{return e.length})),
+        i = 0,
+        flag = true;
+    while (i<len && flag){
+        let para = ans[i], j=1;
+        while (j<arr.length && flag) {
+            if (arr[j][i] !== para) flag = false;
+            j++;
+        }
+        if (flag) i++;
+    }
+    return ans.slice(0,i);
 };
 
 // 测试
